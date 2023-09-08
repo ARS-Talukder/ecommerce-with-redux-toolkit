@@ -14,8 +14,9 @@ const Header = () => {
             </div>
             <div className="navbar-end">
                 <Link to="/" className='btn btn-success mx-2'>Home</Link>
-                <Link to="/about" className='btn btn-success mx-2'>About</Link>
+                {/* <Link to="/about" className='btn btn-success mx-2'>About</Link> */}
                 <Link to="/toprated" className='btn btn-success mx-2'>Top Rated</Link>
+                <Link to="/dashboard" className='btn btn-success mx-2'>Dashboard</Link>
                 <Link to="/carts" className="btn btn-ghost btn-circle mx-2">
                     <div className="indicator">
                         <img src={cart} alt="cart" />
