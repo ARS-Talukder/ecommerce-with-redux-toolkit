@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Product from "./Product";
-import { getProducts } from "../../features/products/productsSlice";
+import { getProducts, toggleDeleteSuccess } from "../../features/products/productsSlice";
 import { toast } from "react-hot-toast";
 
 const ProductList = () => {
@@ -12,12 +12,16 @@ const ProductList = () => {
 
     const state = useSelector((state) => state);
     const { products, isLoading, deleteSuccess } = state.products;
-    
+
     useEffect(() => {
-        if (!isLoading && deleteSuccess) {
-            toast.success("Deleted Successfully")
+        if (isLoading) {
+            toast.loading('Deleting...', { id: "updateProduct" });
         }
-    }, [deleteSuccess, isLoading])
+        if (!isLoading && deleteSuccess) {
+            toast.success("Deleted Successfully");
+            dispatch(toggleDeleteSuccess())
+        }
+    }, [deleteSuccess, isLoading, dispatch])
 
     let content;
     if (isLoading) {

@@ -49,7 +49,7 @@ export const productsSlice = createSlice({
         },
 
         toggleDeleteSuccess: (state) => {
-            state.postSuccess = false;
+            state.deleteSuccess = false;
         },
 
         // -----Updated Successfully shows at the time of visited addProduct.jsx. It'll be fixed here
