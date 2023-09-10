@@ -1,62 +1,68 @@
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct, togglePostSuccess } from "../../features/products/productsSlice";
+import { useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { useForm } from "react-hook-form";
 
 const AddProduct = () => {
-    const handleAddProduct = event => {
-        event.preventDefault();
-        const model = event.target.model.value;
-        const image = event.target.image.value;
-        const price = event.target.price.value;
-        const brand = event.target.brand.value;
-        let status;
-        if (event.target.status.value == "available") {
-            status = true;
+    const dispatch = useDispatch();
+    const state = useSelector(state => state);
+    const { isLoading, postSuccess, isError, error } = state.products;
+    useEffect(() => {
+        if (isLoading) {
+            toast.loading('Posting...', { id: "addProduct" });
         }
-        else if (event.target.status.value == "stockout") {
-            status = false;
+        if (!isLoading && postSuccess) {
+            toast.success('Added Successfully', { id: "addProduct" })
+            dispatch(togglePostSuccess());
         }
-        const keyFeature = [event.target.key1.value, event.target.key2.value, event.target.key3.value, event.target.key4.value];
-        const product = { model, image, price, brand, status, keyFeature }
-        console.log(product);
+        if (!isLoading && isError) {
+            toast.error(error, { id: "addProduct" })
+        }
+    }, [isLoading, postSuccess, isError, error, dispatch])
 
+    const { register, handleSubmit, reset } = useForm();
+    const onSubmit = (data) => {
+        let { model, image, price, brand, status, key1, key2, key3, key4 } = data;
+        status = status === "available" ? true : false;
+        const keyFeature = [key1, key2, key3.value, key4];
+        const product = { model, image, price, brand, status, keyFeature };
+        console.log(product);
+        dispatch(addProduct(product));
+        reset();
     }
     return (
         <div>
-            <form name='review-form' onSubmit={handleAddProduct} action="" className='grid grid-cols-1 gap-4 justify-items-center my-8 px-5'>
+            <form action="" onSubmit={handleSubmit(onSubmit)}>
+                <input type="text" name='model' placeholder='Model' className="input input-bordered input-success w-full my-1" id="model" {...register("model", { required: true })} />
 
-                <input type="text" name='model' placeholder='Model' className="input input-bordered input-success w-full " required />
+                <input type="text" name='image' placeholder='Img link' className="input input-bordered input-success w-full my-1" id="image" {...register("image", { required: true })} />
 
-                <input type="text" name='image' placeholder='Img link' className="input input-bordered input-success w-full my-0" required />
+                <input type="number" name='price' placeholder='Price' className="input input-bordered input-success w-full my-1" id="price" {...register("price", { required: true })} />
 
-                <input type="number" name='price' placeholder='Price' className="input input-bordered input-success w-full" required />
-
-                <select defaultValue={'Default'} name='brand' className="select select-success w-full">
+                <select defaultValue={'Default'} name='brand' className="select select-success w-full my-1" id="brand" {...register("brand", { required: true })} >
                     <option value="Default" disabled>Select Brand</option>
                     <option value="amd">amd</option>
                     <option value="intel">intel</option>
                 </select>
 
-                <select defaultValue={'Default'} name='status' className="select select-success w-full">
+                <select defaultValue={'Default'} name='status' className="select select-success w-full my-1" id="status" {...register("status", { required: true })}>
                     <option value="Default" disabled>Availability</option>
                     <option value="available">Available</option>
                     <option value="stockout">Stock out</option>
                 </select>
 
-                <input type="text" name='key1' placeholder='Key Feature 1' className="input input-bordered input-success w-full my-0" required />
+                <input type="text" name='key1' placeholder='Key Feature 1' className="input input-bordered input-success w-full my-1" id="key1" {...register("key1", { required: true })} />
 
-                <input type="text" name='key2' placeholder='Key Feature 2' className="input input-bordered input-success w-full my-0" required />
+                <input type="text" name='key2' placeholder='Key Feature 2' className="input input-bordered input-success w-full my-1" id="key2" {...register("key2", { required: true })} />
 
-                <input type="text" name='key3' placeholder='Key Feature 3' className="input input-bordered input-success w-full my-0" required />
+                <input type="text" name='key3' placeholder='Key Feature 3' className="input input-bordered input-success w-full my-1" id="key3" {...register("key3", { required: true })} />
 
-                <input type="text" name='key4' placeholder='Key Feature 4' className="input input-bordered input-success w-full my-0" required />
+                <input type="text" name='key4' placeholder='Key Feature 4' className="input input-bordered input-success w-full my-1" id="key4" {...register("key4", { required: true })} />
 
-
-
-
-
-                <input type="submit" value="CONFIRM" className='btn btn-success w-full bg-red-300 text-xl' />
-
-
+                <input type="submit" value="CONFIRM" className='btn btn-success w-full bg-red-300 text-xl my-1' />
             </form>
-        </div>
+        </div >
     );
 };
 

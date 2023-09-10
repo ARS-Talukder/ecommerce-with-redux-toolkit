@@ -7,6 +7,14 @@ export const fetchProducts = async () => {
     return data.data;
 }
 
-// export const postProduct=async()=>{
-//     await axios.post("/product",produc)
-// }
+export const postProduct = async (productData) => {
+    await axios.post("/product", productData)
+}
+
+export const deleteProduct = async (id) => {
+    await axios.delete(`/product/${id}`)
+}
+
+export const editProduct = async (data) => {
+    await axios.put(`/product_update/${data._id}`, data)
+}

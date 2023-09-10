@@ -8,6 +8,8 @@ import Carts from './pages/Cart/Carts';
 import Dashboard from './pages/Dashboard/Dashboard';
 import ProductList from './pages/Dashboard/ProductList.jsx';
 import AddProduct from './pages/Dashboard/AddProduct';
+import { Toaster } from 'react-hot-toast';
+import UpdateProduct from './pages/Dashboard/UpdateProduct';
 
 
 function App() {
@@ -22,8 +24,11 @@ function App() {
         <Route path='/dashboard' element={<Dashboard></Dashboard>}>
           <Route index element={<ProductList></ProductList>}></Route>
           <Route path='/dashboard/addproduct' element={<AddProduct></AddProduct>}></Route>
+          <Route path='/dashboard/update_product' element={<UpdateProduct></UpdateProduct>}></Route>
+
         </Route>
       </Routes>
+      <Toaster />
 
     </>
   )
